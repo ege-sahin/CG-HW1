@@ -27,7 +27,7 @@ varying vec4 fColor;
 void
 main()
 {
-    gl_FragColor = vec4(1,0,0,1);
+    gl_FragColor = fColor;
 }
 </script>
 
@@ -40,12 +40,54 @@ main()
 <canvas id="gl-canvas" width="512" height="512">>
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
-<button id="undoButton">UNDO </button>
-<button id="redoButton">REDO </button>
-<button id="brushButton">BRUSH </button>
-<button id="rectangleButton">RECTANLE </button>
-<button id="triangleButton">TRIANLGE </button>
-<button id="ellipseButton">ELLIPSE </button>
-<button id="eraseButton">ERASE </button>
+<style>
+.button {
+    border: none;
+    color: rgb(0, 0, 0);
+    background-color: rgb(159, 178, 194);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+  }
+  
+.greenColorButton {background-color: #4CAF50;} 
+.blueColorButton {background-color: #2f02f5;}
+.cyanColorButton {background-color: #00eeff;} 
+.redColorButton {background-color: #ff0000;} 
+.yellowColorButton {background-color: #fffb00;} 
+.orangeColorButton {background-color: #ff8800;} 
+.magentaColorButton {background-color: #ff00dd;} 
+.purpleColorButton {background-color: #8400ff;} 
+</style>
+
+<style>
+.undoButton{position: absolute; left: 540px; top: 30px}
+.redoButton{position: absolute; left: 540px; top: 90px}
+.brushButton{position: absolute; left: 680px; top: 30px}
+.rectangleButton{position: absolute; left: 680px; top: 90px}
+.triangleButton{position: absolute; left: 680px; top: 150px}
+.ellipseButton{position: absolute; left: 680px; top: 210px}
+.eraseButton{position: absolute; left: 540px; top: 150px}
+</style>
+
+<button class="button undoButton", id="undoButton">UNDO </button>
+<button class="button redoButton", id="redoButton">REDO </button>
+<button class="button brushButton", id="brushButton">BRUSH </button>
+<button class="button rectangleButton", id="rectangleButton">RECTANLE </button>
+<button class="button triangleButton", id="triangleButton">TRIANLGE </button>
+<button class="button ellipseButton", id="ellipseButton">ELLIPSE </button>
+<button class="button eraseButton", id="eraseButton">ERASE </button>
+
+<button class="button greenColorButton", id="greenColorButton"></button>
+<button class="button blueColorButton", id="blueColorButton"></button>
+<button class="button cyanColorButton", id="cyanColorButton"></button>
+<button class="button redColorButton", id="redColorButton"></button>
+<button class="button yellowColorButton", id="yellowColorButton"></button>
+<button class="button orangeColorButton", id="orangeColorButton"></button>
+<button class="button magentaColorButton", id="magentaColorButton"></button>
+<button class="button purpleColorButton", id="purpleColorButton"></button>
 </body>
 </html>

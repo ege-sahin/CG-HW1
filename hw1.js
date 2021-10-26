@@ -28,14 +28,17 @@ var t2 = vec2;
 
 var vertexArr = [];
 
+var colorIndex = 1;
+
 var colors = [
-    vec4( 0.0, 0.0, 0.0, 1.0 ),  // black
+    vec4( 1.0, 0.5, 0.0, 1.0 ),  // orange
     vec4( 1.0, 0.0, 0.0, 1.0 ),  // red
     vec4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
     vec4( 0.0, 1.0, 0.0, 1.0 ),  // green
     vec4( 0.0, 0.0, 1.0, 1.0 ),  // blue
     vec4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
-    vec4( 0.0, 1.0, 1.0, 1.0 )   // cyan
+    vec4( 0.0, 1.0, 1.0, 1.0 ),  // cyan
+    vec4( 0.5, 0.0, 1.0, 1.0 )  // purple
 ];
 
 
@@ -115,6 +118,7 @@ window.onload = function init() {
             t3 = vec2(t1[0], t2[1]);
             t4 = vec2(t2[0], t1[1]);
 
+            gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
             gl.bufferSubData(gl.ARRAY_BUFFER, 8*index, flatten(t1));
             gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+1), flatten(t3));
             gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+2), flatten(t2));
@@ -128,6 +132,12 @@ window.onload = function init() {
             vertexArr.unshift(t2[0]);
             vertexArr.unshift(t4[1]);
             vertexArr.unshift(t4[0]);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(colors[colorIndex]));
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+1), flatten(colors[colorIndex]));
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+2), flatten(colors[colorIndex]));
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+3), flatten(colors[colorIndex]));
 
             index += 4;
             //console.log("Index: " + index);
@@ -148,6 +158,7 @@ window.onload = function init() {
             t3 = vec2(t1[0], t2[1]);
             t4 = vec2(t2[0], t1[1]);
 
+            gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
             gl.bufferSubData(gl.ARRAY_BUFFER, 8*index, flatten(t1));
             gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+1), flatten(t3));
             gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+2), flatten(t4));
@@ -158,6 +169,11 @@ window.onload = function init() {
             vertexArr.unshift(t3[0]);
             vertexArr.unshift(t4[1]);
             vertexArr.unshift(t4[0]);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(colors[colorIndex]));
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+1), flatten(colors[colorIndex]));
+            gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+2), flatten(colors[colorIndex]));
 
             index += 3;
             //console.log("Index: " + index);
@@ -186,7 +202,8 @@ window.onload = function init() {
             radiusX = Math.abs(centerX - t1[0]);
             console.log("radiusY : " + radiusY);
             console.log("radiusX : " + radiusX);
-
+            
+            gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
             for(i = 0; i < 16; i++)
             {
                 t = vec2(centerX + radiusX * Math.cos(i * Math.PI / 8),centerY + radiusY * Math.sin(i * Math.PI/8));
@@ -194,6 +211,11 @@ window.onload = function init() {
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index + i), flatten(t));
                 vertexArr.unshift(t[1]); // y
                 vertexArr.unshift(t[0]); // x
+            }
+            gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+            for(i = 0; i < 16; i++)
+            {
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index + i), flatten(colors[colorIndex]));
             }
             index += 16;
             //console.log("Index: " + index);
@@ -226,11 +248,12 @@ window.onload = function init() {
                 vertexArr.unshift(t[0]); //x
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-                t = vec4(colors[(index)%7]);
-                gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(t));
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(colors[colorIndex]));
                 index++;
                 //console.log("Index: " + index);
                 //console.log("vertexArr.length : " + vertexArr.length);
+
+
             }
         }
         else if(rectangle)
@@ -248,6 +271,12 @@ window.onload = function init() {
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+1), flatten(t3));
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+2), flatten(t2));
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+3), flatten(t4));
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(colors[colorIndex]));
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+1), flatten(colors[colorIndex]));
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+2), flatten(colors[colorIndex]));
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+3), flatten(colors[colorIndex]));
             }
         }
         else if(triangle)
@@ -264,6 +293,11 @@ window.onload = function init() {
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*index, flatten(t1));
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+1), flatten(t3));
                 gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index+2), flatten(t4));
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(colors[colorIndex]));
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+1), flatten(colors[colorIndex]));
+                gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index+2), flatten(colors[colorIndex]));
             }
         }
         else if(ellipse)
@@ -286,6 +320,11 @@ window.onload = function init() {
                     t = vec2(centerX + radiusX * Math.cos(i * Math.PI / 8),centerY + radiusY * Math.sin(i * Math.PI/8));
     
                     gl.bufferSubData(gl.ARRAY_BUFFER, 8*(index + i), flatten(t));
+                }
+                gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+                for(i = 0; i < 16; i++)
+                {
+                    gl.bufferSubData(gl.ARRAY_BUFFER, 16*(index + i), flatten(colors[colorIndex]));
                 }
             }
         }
@@ -459,28 +498,26 @@ window.onload = function init() {
         }
     });
 
-    document.getElementById("undoButton").onclick = function () {
-        if(shapeArrIndex >= 0)
-        {
-            console.log("undo redo index BEFORE UNDO button : " + undoRedoIndex);
-            undoRedoIndex--;
-            console.log("undo redo index AFTER UNDO button : " + undoRedoIndex);
-            shapeArrIndex--;
-            console.log("shapeArrIndex AFTER UNDO button : " + shapeArrIndex);
-        }
-    };
-
-    document.getElementById("redoButton").onclick = function () {
-        if(undoRedoIndex < indexValuesArr.length - 1)
-        {
-            console.log("undo redo index BEFORE REDO: " + undoRedoIndex);
-            undoRedoIndex++;
-            console.log("undo redo index AFTER REDO: " + undoRedoIndex);
-            shapeArrIndex++;
-        }
-    };
-
     if(true){
+        document.getElementById("undoButton").onclick = function () {
+            if(shapeArrIndex >= 0)
+            {
+                console.log("undo redo index BEFORE UNDO button : " + undoRedoIndex);
+                undoRedoIndex--;
+                console.log("undo redo index AFTER UNDO button : " + undoRedoIndex);
+                shapeArrIndex--;
+                console.log("shapeArrIndex AFTER UNDO button : " + shapeArrIndex);
+            }
+        };
+        document.getElementById("redoButton").onclick = function () {
+            if(undoRedoIndex < indexValuesArr.length - 1)
+            {
+                console.log("undo redo index BEFORE REDO: " + undoRedoIndex);
+                undoRedoIndex++;
+                console.log("undo redo index AFTER REDO: " + undoRedoIndex);
+                shapeArrIndex++;
+            }
+        };
         document.getElementById("rectangleButton").onclick = function () {
             brush = false;
             rectangle = true;
@@ -516,6 +553,14 @@ window.onload = function init() {
             ellipse = false;
             erase = true;
         };
+        document.getElementById("greenColorButton").onclick = function () {colorIndex = 3;};
+        document.getElementById("blueColorButton").onclick = function () {colorIndex = 4;};
+        document.getElementById("redColorButton").onclick = function () {colorIndex = 1;};
+        document.getElementById("yellowColorButton").onclick = function () {colorIndex = 2;};
+        document.getElementById("orangeColorButton").onclick = function () {colorIndex = 0;};
+        document.getElementById("cyanColorButton").onclick = function () {colorIndex = 6;};
+        document.getElementById("magentaColorButton").onclick = function () {colorIndex = 5;};
+        document.getElementById("purpleColorButton").onclick = function () {colorIndex = 7;};
 
         gl.viewport( 0, 0, canvas.width, canvas.height );
         gl.clearColor( 0.5, 0.5, 0.5, 1.0 );
